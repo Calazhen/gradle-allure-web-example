@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+
 import java.time.Duration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,7 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 
 public class CareersForm {
 
-    final String driverPath = "C:\\Users\\calaz\\geckodriver.exe";
+    final String driverPath = System.getProperty("user.home") + "\\geckodriver.exe";
     private WebDriver driver;
 
     @BeforeEach
@@ -24,6 +25,7 @@ public class CareersForm {
     @AfterEach
     public void tearDown() {
         driver.quit();
+
     }
 
     String nameField = "#input-0-b8b875ec-d0d5-453d-81a4-d9faa1acbf5e-error";
@@ -40,20 +42,31 @@ public class CareersForm {
         driver.findElement(By.cssSelector(".cs-button")).click();
 
         // Verifica mensagem de erro no campo de "Nome"
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         assertThat(driver.findElement(By.cssSelector(nameField)).getText(), containsString("Ops!"));
 
         // Verifica mensagem de erro no campo de "E-mail"
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         assertThat(driver.findElement(By.cssSelector(emailField)).getText(), containsString("Ops!"));
 
         // Verifica mensagem de erro no campo de "Telefone"
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         assertThat(driver.findElement(By.cssSelector(phoneNumberField)).getText(), containsString("Ops!"));
 
         // Verifica mensagem de erro no campo de "Conteúdo do Cúrriculo"
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         assertThat(driver.findElement(By.cssSelector(resumesContentField)).getText(), containsString("Ops!"));
 
+    }
+
+
+    @Test
+    @DisplayName("Teste falhando")
+    public void testParaFalhar (){
+        // Clica no botão "Enviar"
+        driver.findElement(By.cssSelector(".cs-button")).click();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        assertThat(driver.findElement(By.cssSelector(nameField)).getText(), containsString("ups!"));
     }
 }
